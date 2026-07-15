@@ -4,8 +4,6 @@ A free speech-to-text app using Whisper.
 
 Hold **Control + Option + Space**, wait for the listening indicator, speak, and release Space. Dictator transcribes locally with MLX Whisper and pastes into the focused app. It sends no audio or text to a server and requires no API key.
 
-![Dictator icon](assets/icon.svg)
-
 ## Design principles
 
 - **Quiet when idle:** no microphone stream, model load, or inference work until the hotkey is pressed.
