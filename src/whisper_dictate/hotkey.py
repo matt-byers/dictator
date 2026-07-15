@@ -8,7 +8,9 @@ from threading import Lock
 class GlobalHotkey:
     """Control+Option+Space push-to-talk with event-tap self-repair."""
 
-    def __init__(self, on_trigger: Callable[[], bool], on_release: Callable[[], None], logger: logging.Logger) -> None:
+    def __init__(
+        self, on_trigger: Callable[[], bool], on_release: Callable[[], None], logger: logging.Logger
+    ) -> None:
         from pynput import keyboard
         from Quartz import (
             CGEventGetIntegerValueField,

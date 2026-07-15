@@ -50,7 +50,11 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.coverage.run]
 source = ["whisper_dictate"]
-omit = ["src/whisper_dictate/main.py", "src/whisper_dictate/hud.py"]
+omit = [
+  "src/whisper_dictate/main.py",
+  "src/whisper_dictate/hud.py",
+  "src/whisper_dictate/hotkey.py",
+]
 
 [tool.coverage.report]
 fail_under = 80

@@ -90,10 +90,14 @@ class DictationController:
             self._fail(session_id, error)
 
     def _fail(self, session_id: int, error: Exception) -> None:
-        failure = error.failure if isinstance(error, WhisperDictateError) else AppFailure(
-            ErrorCode.INTERNAL,
-            "Whisper Dictate encountered an unexpected error.",
-            "Try again; if it repeats, inspect the application log.",
+        failure = (
+            error.failure
+            if isinstance(error, WhisperDictateError)
+            else AppFailure(
+                ErrorCode.INTERNAL,
+                "Whisper Dictate encountered an unexpected error.",
+                "Try again; if it repeats, inspect the application log.",
+            )
         )
         self._logger.exception("session_failed code=%s", failure.code.value, exc_info=error)
         try:

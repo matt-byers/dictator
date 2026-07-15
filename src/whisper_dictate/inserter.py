@@ -9,7 +9,9 @@ from .errors import AppFailure, ErrorCode, WhisperDictateError
 
 
 class ClipboardInserter:
-    def __init__(self, keyboard_controller: object, command_key: object, logger: logging.Logger) -> None:
+    def __init__(
+        self, keyboard_controller: object, command_key: object, logger: logging.Logger
+    ) -> None:
         self._keyboard = keyboard_controller
         self._command_key = command_key
         self._logger = logger

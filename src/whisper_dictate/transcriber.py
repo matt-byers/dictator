@@ -80,7 +80,9 @@ class LocalWhisperTranscriber:
         return text
 
     def _inference_timed_out(self) -> None:
-        self._logger.critical("transcription_timeout action=restart seconds=%.1f", self._inference_timeout)
+        self._logger.critical(
+            "transcription_timeout action=restart seconds=%.1f", self._inference_timeout
+        )
         self._fatal_exit(1)
 
     def _log_memory(self, mx: object) -> None:

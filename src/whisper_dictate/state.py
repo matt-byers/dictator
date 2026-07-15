@@ -120,7 +120,8 @@ class SessionCoordinator:
         if session_id != self._session_id or self._state not in states:
             expected = ", ".join(state.value for state in states)
             raise InvalidTransition(
-                f"session {session_id} cannot transition from {self._state.value}; expected {expected}"
+                f"session {session_id} cannot transition from {self._state.value}; "
+                f"expected {expected}"
             )
 
     def _snapshot_unlocked(self) -> SessionSnapshot:
@@ -131,4 +132,3 @@ class SessionCoordinator:
             recording_started_at=self._recording_started_at,
             failure=self._failure,
         )
-

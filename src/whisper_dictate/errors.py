@@ -24,4 +24,3 @@ class WhisperDictateError(Exception):
     def __init__(self, failure: AppFailure) -> None:
         super().__init__(failure.message)
         self.failure = failure
-

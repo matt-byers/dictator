@@ -18,7 +18,10 @@ _lock_file = None
 
 def acquire_single_instance() -> bool:
     global _lock_file
-    _lock_file = open(Path.home() / "Library/Caches/com.local.whisper-dictate.lock", "w")
+    lock_path = Path.home() / "Library/Caches/com.local.whisper-dictate.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    # Kept open for process lifetime so flock remains held.
+    _lock_file = open(lock_path, "w")  # noqa: SIM115
     try:
         fcntl.flock(_lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
         _lock_file.write(str(os.getpid()))
@@ -33,6 +36,7 @@ def main() -> int:
         return 0
 
     import tkinter as tk
+
     from pynput import keyboard
 
     config = AppConfig.from_environment()

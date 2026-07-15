@@ -1,0 +1,40 @@
+#include <Python.h>
+#include <libgen.h>
+#include <mach-o/dyld.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void) {
+    char executable[PATH_MAX];
+    uint32_t size = sizeof(executable);
+    if (_NSGetExecutablePath(executable, &size) != 0) {
+        fprintf(stderr, "Whisper Dictate: executable path is too long\n");
+        return 1;
+    }
+
+    char resolved[PATH_MAX];
+    if (realpath(executable, resolved) == NULL) {
+        perror("Whisper Dictate: realpath");
+        return 1;
+    }
+
+    char resources[PATH_MAX];
+    snprintf(resources, sizeof(resources), "%s", resolved);
+    dirname(resources); /* MacOS */
+    dirname(resources); /* Contents */
+    strncat(resources, "/Resources", sizeof(resources) - strlen(resources) - 1);
+
+    char python_path[PATH_MAX * 2];
+    snprintf(python_path, sizeof(python_path), "%s/python:%s/site-packages", resources, resources);
+    setenv("PYTHONPATH", python_path, 1);
+
+    Py_Initialize();
+    int result = PyRun_SimpleString(
+        "from whisper_dictate.main import main\n"
+        "raise SystemExit(main())\n"
+    );
+    Py_Finalize();
+    return result == 0 ? 0 : 1;
+}
