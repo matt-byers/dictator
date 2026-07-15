@@ -30,7 +30,7 @@ macos = [
   "pyobjc-framework-Quartz==12.2",
   "sounddevice==0.5.5",
 ]
-dev = ["coverage==7.10.6", "ruff==0.12.8"]
+dev = ["coverage==7.10.6", "numpy==2.4.6", "ruff==0.12.8"]
 
 [project.scripts]
 dictator = "dictator.main:main"
