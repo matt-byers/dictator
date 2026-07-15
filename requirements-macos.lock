@@ -1,0 +1,9 @@
+mlx==0.31.2
+mlx-whisper==0.4.3
+numpy==2.4.6
+pynput==1.8.2
+pyobjc-framework-ApplicationServices==12.2
+pyobjc-framework-Cocoa==12.2
+pyobjc-framework-Quartz==12.2
+sounddevice==0.5.5
+
