@@ -8,7 +8,7 @@ Hold **Control + Option + Space**, wait for the listening indicator, speak, and 
 
 - **Quiet when idle:** no microphone stream, model load, or inference work until the hotkey is pressed.
 - **Private by default:** audio stays in memory and transcript content is excluded from logs.
-- **Bounded resources:** recordings stop at 60 seconds, MLX's free cache is capped at 128 MB, logs rotate, and stuck native work causes a clean launchd restart rather than leaked threads.
+- **Bounded resources:** recordings stop at five minutes, MLX's free cache is capped at 128 MB, logs rotate, and stuck native work causes a clean launchd restart rather than leaked threads.
 - **One session at a time:** a small state machine rejects overlapping hotkeys and stale workers.
 - **Observable:** lifecycle, latency, audio metadata, and MLX memory are written to a local rotating log.
 
@@ -71,7 +71,7 @@ Logs include character and word counts, never transcript text, unless `DICTATE_L
 | --- | --- | --- |
 | `DICTATE_MODEL` | `mlx-community/whisper-large-v3-turbo-q4` | Quantized local model |
 | `DICTATE_LANG` | `en` | Language code; empty enables detection |
-| `DICTATE_MAX_SECONDS` | `60` | Hard recording duration and memory bound |
+| `DICTATE_MAX_SECONDS` | `300` | Hard recording duration and memory bound |
 | `DICTATE_MLX_CACHE_MB` | `128` | MLX reusable-buffer cache cap |
 | `DICTATE_DEBUG` | `0` | More diagnostic events |
 | `DICTATE_LOG_TRANSCRIPTS` | `0` | Opt in to plaintext transcript logs |

@@ -14,4 +14,4 @@ global hotkey → session coordinator → on-demand microphone
 
 The app deliberately does not preload the model or retain a CoreAudio stream. This trades a small first-use latency for near-zero idle computation and no idle microphone indicator. MLX retains model weights after first use for fast later dictations, while its disposable buffer cache is capped and cleared after inference.
 
-Native calls that have historically hung are guarded. CoreAudio close gets two seconds; inference gets 45 seconds. A timeout terminates the process and launchd restarts it. This bounds leaked native state more reliably than abandoning an unbounded series of Python threads.
+Native calls that have historically hung are guarded. CoreAudio close gets two seconds. Inference gets at least 45 seconds and scales to twice the audio duration plus 30 seconds, allowing long recordings on memory-pressured Macs. A timeout terminates the process and launchd restarts it. This bounds leaked native state more reliably than abandoning an unbounded series of Python threads.

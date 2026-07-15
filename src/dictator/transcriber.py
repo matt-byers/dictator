@@ -11,6 +11,11 @@ from .diagnostics import transcript_metadata
 from .errors import AppFailure, DictatorError, ErrorCode
 
 
+def inference_timeout_seconds(audio_duration: float, minimum: float = 45.0) -> float:
+    """Allow slow, memory-pressured Macs up to 2× real time plus startup overhead."""
+    return max(minimum, audio_duration * 2.0 + 30.0)
+
+
 class LocalWhisperTranscriber:
     def __init__(
         self,
@@ -46,7 +51,8 @@ class LocalWhisperTranscriber:
             if not self._configured:
                 mx.set_cache_limit(self._config.mlx_cache_limit_mb * 1024 * 1024)
                 self._configured = True
-            watchdog = Timer(self._inference_timeout, self._inference_timed_out)
+            timeout = inference_timeout_seconds(duration, self._inference_timeout)
+            watchdog = Timer(timeout, self._inference_timed_out, args=(timeout,))
             watchdog.daemon = True
             watchdog.start()
             started = monotonic()
@@ -79,10 +85,8 @@ class LocalWhisperTranscriber:
         )
         return text
 
-    def _inference_timed_out(self) -> None:
-        self._logger.critical(
-            "transcription_timeout action=restart seconds=%.1f", self._inference_timeout
-        )
+    def _inference_timed_out(self, timeout: float) -> None:
+        self._logger.critical("transcription_timeout action=restart seconds=%.1f", timeout)
         self._fatal_exit(1)
 
     def _log_memory(self, mx: object) -> None:

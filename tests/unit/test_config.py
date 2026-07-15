@@ -12,7 +12,7 @@ class AppConfigTests(unittest.TestCase):
         self.assertEqual(config.model, "mlx-community/whisper-large-v3-turbo-q4")
         self.assertFalse(config.debug_keys)
         self.assertFalse(config.log_transcripts)
-        self.assertEqual(config.maximum_seconds, 60.0)
+        self.assertEqual(config.maximum_seconds, 300.0)
         self.assertEqual(config.mlx_cache_limit_mb, 128)
 
     def test_environment_overrides_are_parsed(self):

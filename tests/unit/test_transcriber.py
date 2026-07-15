@@ -8,7 +8,7 @@ import numpy as np
 
 from dictator.config import AppConfig
 from dictator.errors import DictatorError, ErrorCode
-from dictator.transcriber import LocalWhisperTranscriber
+from dictator.transcriber import LocalWhisperTranscriber, inference_timeout_seconds
 
 
 class FakeMLX(types.ModuleType):
@@ -37,6 +37,10 @@ class FakeMLX(types.ModuleType):
 
 
 class TranscriberTests(unittest.TestCase):
+    def test_watchdog_scales_for_five_minute_audio(self):
+        self.assertEqual(inference_timeout_seconds(1), 45.0)
+        self.assertEqual(inference_timeout_seconds(300), 630.0)
+
     def modules(self, transcribe):
         core = FakeMLX()
         mlx = types.ModuleType("mlx")

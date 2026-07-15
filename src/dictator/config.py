@@ -14,7 +14,7 @@ class AppConfig:
     sample_rate: int = 16_000
     block_size: int = 1_024
     minimum_seconds: float = 0.3
-    maximum_seconds: float = 60.0
+    maximum_seconds: float = 300.0
     silence_peak: float = 0.005
     mlx_cache_limit_mb: int = 128
     debug_keys: bool = False
@@ -27,7 +27,7 @@ class AppConfig:
         return cls(
             model=environ.get("DICTATE_MODEL", DEFAULT_MODEL),
             language=language,
-            maximum_seconds=float(environ.get("DICTATE_MAX_SECONDS", "60")),
+            maximum_seconds=float(environ.get("DICTATE_MAX_SECONDS", "300")),
             mlx_cache_limit_mb=int(environ.get("DICTATE_MLX_CACHE_MB", "128")),
             debug_keys=environ.get("DICTATE_DEBUG", "0") == "1",
             log_transcripts=environ.get("DICTATE_LOG_TRANSCRIPTS", "0") == "1",
