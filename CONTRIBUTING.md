@@ -10,7 +10,7 @@ Before opening a change, run:
 .venv/bin/coverage report
 .venv/bin/ruff check src tests
 scripts/build-app.sh
-codesign --verify --deep --strict "build/Whisper Dictate.app"
+codesign --verify --deep --strict "build/Dictator.app"
 ```
 
 Manual changes to hotkeys, capture, inference, or paste behavior also require one real dictation and inspection of the resulting log.

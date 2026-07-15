@@ -19,7 +19,7 @@ class AppConfig:
     mlx_cache_limit_mb: int = 128
     debug_keys: bool = False
     log_transcripts: bool = False
-    log_path: Path = Path.home() / "Library/Logs/Whisper Dictate/app.log"
+    log_path: Path = Path.home() / "Library/Logs/Dictator/app.log"
 
     @classmethod
     def from_environment(cls) -> AppConfig:

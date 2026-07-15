@@ -12,7 +12,7 @@ def configure_logging(path: Path, *, verbose: bool = False) -> logging.Logger:
     with suppress(OSError):
         path.parent.chmod(0o700)
 
-    logger = logging.getLogger("whisper_dictate")
+    logger = logging.getLogger("dictator")
     logger.setLevel(logging.DEBUG if verbose else logging.INFO)
     logger.propagate = False
     if logger.handlers:

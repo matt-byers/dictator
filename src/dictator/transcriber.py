@@ -8,7 +8,7 @@ from time import monotonic
 
 from .config import AppConfig
 from .diagnostics import transcript_metadata
-from .errors import AppFailure, ErrorCode, WhisperDictateError
+from .errors import AppFailure, DictatorError, ErrorCode
 
 
 class LocalWhisperTranscriber:
@@ -59,7 +59,7 @@ class LocalWhisperTranscriber:
                     temperature=0.0,
                 )
             except Exception as error:
-                raise WhisperDictateError(
+                raise DictatorError(
                     AppFailure(
                         ErrorCode.MODEL,
                         "Local transcription failed.",

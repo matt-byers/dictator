@@ -1,10 +1,10 @@
-# Whisper Dictate
+# Dictator
 
-Private, local push-to-talk dictation for Apple Silicon Macs.
+A free speech-to-text app using Whisper.
 
-Hold **Control + Option + Space**, wait for the listening indicator, speak, and release Space. Whisper Dictate transcribes locally with MLX Whisper and pastes into the focused app. It sends no audio or text to a server and requires no API key.
+Hold **Control + Option + Space**, wait for the listening indicator, speak, and release Space. Dictator transcribes locally with MLX Whisper and pastes into the focused app. It sends no audio or text to a server and requires no API key.
 
-![Whisper Dictate icon](assets/icon.svg)
+![Dictator icon](assets/icon.svg)
 
 ## Design principles
 
@@ -24,27 +24,27 @@ Hold **Control + Option + Space**, wait for the listening indicator, speak, and 
 ## Install from source
 
 ```sh
-git clone <repository-url> whisper-dictate
-cd whisper-dictate
+git clone https://github.com/matt-byers/dictator.git
+cd dictator
 scripts/bootstrap.sh
 scripts/install.sh
 ```
 
-The installer builds and ad-hoc signs `Whisper Dictate.app`, installs it in `~/Applications`, and registers a per-user LaunchAgent. The bundle uses APFS clone copies where supported to avoid needless extra physical disk use during local builds.
+The installer builds and ad-hoc signs `Dictator.app`, installs it in `~/Applications`, and registers a per-user LaunchAgent. The bundle uses APFS clone copies where supported to avoid needless extra physical disk use during local builds.
 
-Grant **Whisper Dictate** these one-time permissions in System Settings → Privacy & Security:
+Grant **Dictator** these one-time permissions in System Settings → Privacy & Security:
 
 1. Microphone — recording while the hotkey is held.
 2. Input Monitoring — receiving the global hotkey.
 3. Accessibility — sending Command+V.
 
 For Input Monitoring and Accessibility, use the `+` button and select
-`~/Applications/Whisper Dictate.app`. Microphone permission is requested on the first recording.
+`~/Applications/Dictator.app`. Microphone permission is requested on the first recording.
 
 Restart after changing permissions:
 
 ```sh
-launchctl kickstart -k gui/$(id -u)/com.local.whisper-dictate
+launchctl kickstart -k gui/$(id -u)/com.local.dictator
 ```
 
 ## Usage and diagnostics
@@ -53,13 +53,13 @@ The HUD progresses through Opening microphone → Listening → Transcribing →
 
 ```sh
 # Follow privacy-safe application events
-tail -f "$HOME/Library/Logs/Whisper Dictate/app.log"
+tail -f "$HOME/Library/Logs/Dictator/app.log"
 
 # Inspect launch/runtime errors
-tail -f /tmp/whisper-dictate.stderr.log
+tail -f /tmp/dictator.stderr.log
 
 # Restart
-launchctl kickstart -k gui/$(id -u)/com.local.whisper-dictate
+launchctl kickstart -k gui/$(id -u)/com.local.dictator
 
 # Remove the app and LaunchAgent (models and logs remain)
 scripts/uninstall.sh

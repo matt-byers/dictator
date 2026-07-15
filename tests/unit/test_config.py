@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest.mock import patch
 
-from whisper_dictate.config import AppConfig
+from dictator.config import AppConfig
 
 
 class AppConfigTests(unittest.TestCase):

@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>com.local.whisper-dictate</string>
+  <key>Label</key><string>com.local.dictator</string>
   <key>ProgramArguments</key>
-  <array><string>__APP_PATH__/Contents/MacOS/WhisperDictate</string></array>
+  <array><string>__APP_PATH__/Contents/MacOS/Dictator</string></array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>
   <key>ProcessType</key><string>Interactive</string>
   <key>ThrottleInterval</key><integer>3</integer>
-  <key>StandardOutPath</key><string>/tmp/whisper-dictate.stdout.log</string>
-  <key>StandardErrorPath</key><string>/tmp/whisper-dictate.stderr.log</string>
+  <key>StandardOutPath</key><string>/tmp/dictator.stdout.log</string>
+  <key>StandardErrorPath</key><string>/tmp/dictator.stderr.log</string>
 </dict>
 </plist>

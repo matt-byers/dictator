@@ -9,13 +9,13 @@ int main(void) {
     char executable[PATH_MAX];
     uint32_t size = sizeof(executable);
     if (_NSGetExecutablePath(executable, &size) != 0) {
-        fprintf(stderr, "Whisper Dictate: executable path is too long\n");
+        fprintf(stderr, "Dictator: executable path is too long\n");
         return 1;
     }
 
     char resolved[PATH_MAX];
     if (realpath(executable, resolved) == NULL) {
-        perror("Whisper Dictate: realpath");
+        perror("Dictator: realpath");
         return 1;
     }
 
@@ -23,7 +23,7 @@ int main(void) {
     snprintf(resources, sizeof(resources), "%s", resolved);
     char *marker = strstr(resources, "/Contents/MacOS/");
     if (marker == NULL) {
-        fprintf(stderr, "Whisper Dictate: launcher is not inside an application bundle\n");
+        fprintf(stderr, "Dictator: launcher is not inside an application bundle\n");
         return 1;
     }
     *marker = '\0';
@@ -36,7 +36,7 @@ int main(void) {
 
     Py_Initialize();
     int result = PyRun_SimpleString(
-        "from whisper_dictate.main import main\n"
+        "from dictator.main import main\n"
         "raise SystemExit(main())\n"
     );
     Py_Finalize();

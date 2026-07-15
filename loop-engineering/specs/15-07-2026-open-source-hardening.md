@@ -6,7 +6,7 @@
 
 ## Purpose & Impact
 
-Turn Whisper Dictate from a machine-specific personal script into a small,
+Turn Dictator from a machine-specific personal script into a small,
 readable, well-tested open-source macOS application. Preserve its narrow
 push-to-talk workflow while making privacy, lifecycle, performance, packaging,
 and failure recovery explicit and reproducible.
@@ -54,7 +54,7 @@ logs, and understand the architecture without reading one monolithic module.
 
 - **MIT is the intended license:** Use the standard MIT text with Matthew Byers as copyright holder.
 - **Source-built distribution is acceptable initially:** Verify a clean local build from a recreated environment; document that release notarization is deferred.
-- **Bundle identity may stay configurable:** Default local builds to `com.local.whisper-dictate` to preserve existing permissions, with a build-time override for public releases.
+- **Bundle identity may stay configurable:** Default local builds to `com.local.dictator` to preserve existing permissions, with a build-time override for public releases.
 - **“Live vlogging” means live operational logging:** Provide redacted rotating logs plus `scripts/manage.sh logs`.
 - **A native launcher remains necessary for stable TCC identity:** Keep a small relative-path C launcher and verify the built bundle does not contain the developer’s home path.
 
@@ -87,7 +87,7 @@ signs locally when a signing identity is supplied.
 ## Implementation Units
 
 ### Unit 1: Repository and reproducible project foundation
-- **Changes:** `.gitignore`, `LICENSE`, `pyproject.toml`, `src/whisper_dictate/__init__.py`, `src/whisper_dictate/config.py`, `tests/unit/test_config.py`, `.github/workflows/test.yml`
+- **Changes:** `.gitignore`, `LICENSE`, `pyproject.toml`, `src/dictator/__init__.py`, `src/dictator/config.py`, `tests/unit/test_config.py`, `.github/workflows/test.yml`
 - **Depends on:** none
 - **Apply skills:** `python-testing-patterns`, `error-handling-patterns`
 - **Self-Verification:** Create a fresh virtual environment; install the project with dev dependencies; run configuration tests; verify `git check-ignore` excludes `.venv`, bundles, caches, logs, and model artifacts; scan tracked candidates for `/Users/`.
@@ -97,7 +97,7 @@ signs locally when a signing identity is supplied.
 - **Confidence Ceiling:** 95%
 
 ### Unit 2: Pure session state machine and app orchestration
-- **Changes:** `src/whisper_dictate/state.py`, `src/whisper_dictate/app.py`, `tests/unit/test_state.py`, `tests/unit/test_app.py`
+- **Changes:** `src/dictator/state.py`, `src/dictator/app.py`, `tests/unit/test_state.py`, `tests/unit/test_app.py`
 - **Depends on:** Unit 1
 - **Apply skills:** `python-testing-patterns`, `error-handling-patterns`, `tdd-refactor-guard`
 - **Self-Verification:** Run unit tests with native modules unavailable; verify every legal transition, invalid transition, hotkey-during-transcription rejection, release-during-open cancellation, failure recovery, and bounded recording deadline.
@@ -108,7 +108,7 @@ signs locally when a signing identity is supplied.
 - **Confidence Ceiling:** 95%
 
 ### Unit 3: Native adapters, privacy-safe diagnostics, and performance guards
-- **Changes:** `src/whisper_dictate/audio.py`, `src/whisper_dictate/transcriber.py`, `src/whisper_dictate/pasteboard.py`, `src/whisper_dictate/hotkey.py`, `src/whisper_dictate/diagnostics.py`, `tests/unit/test_audio.py`, `tests/unit/test_transcriber.py`, `tests/unit/test_pasteboard.py`, `tests/unit/test_hotkey.py`, `tests/unit/test_diagnostics.py`, `tests/integration/test_macos_adapters.py`, `tests/performance/test_session_soak.py`
+- **Changes:** `src/dictator/audio.py`, `src/dictator/transcriber.py`, `src/dictator/pasteboard.py`, `src/dictator/hotkey.py`, `src/dictator/diagnostics.py`, `tests/unit/test_audio.py`, `tests/unit/test_transcriber.py`, `tests/unit/test_pasteboard.py`, `tests/unit/test_hotkey.py`, `tests/unit/test_diagnostics.py`, `tests/integration/test_macos_adapters.py`, `tests/performance/test_session_soak.py`
 - **Depends on:** Units 1 and 2
 - **Apply skills:** `python-testing-patterns`, `error-handling-patterns`, `performance-profiling`
 - **Self-Verification:** Run unit/component tests; run a fake 1,000-session soak and assert bounded thread/file-descriptor counts and stable application state; verify logs redact transcript content and rotate; verify partial stream-open failures close resources; verify recording and inference timeouts recover.
@@ -119,7 +119,7 @@ signs locally when a signing identity is supplied.
 - **Confidence Ceiling:** 90%
 
 ### Unit 4: HUD, production entry point, and compatibility migration
-- **Changes:** `src/whisper_dictate/hud.py`, `src/whisper_dictate/main.py`, `tests/unit/test_hud.py`, `tests/integration/test_entrypoint.py`, `dictate.py`, `run.sh`
+- **Changes:** `src/dictator/hud.py`, `src/dictator/main.py`, `tests/unit/test_hud.py`, `tests/integration/test_entrypoint.py`, `dictate.py`, `run.sh`
 - **Depends on:** Units 2 and 3
 - **Apply skills:** `python-testing-patterns`, `error-handling-patterns`, `performance-profiling`
 - **Self-Verification:** Verify the compatibility entry point delegates without import-time log/native side effects; test HUD rendering for opening, recording, transcribing, pasting, and actionable error states; sample idle CPU below 1% and confirm no microphone-open log before a hotkey.
@@ -136,7 +136,7 @@ signs locally when a signing identity is supplied.
 - **Smoke Tests:**
   1. **Clean build** — build from a relocated checkout → Expected: valid app bundle with icon and no original absolute path.
   2. **Lifecycle scripts** — install, inspect status/logs, restart, uninstall → Expected: each operation is idempotent and clearly reported.
-  3. **App identity** — inspect Finder/System Settings → Expected: Whisper Dictate name and icon are consistently displayed.
+  3. **App identity** — inspect Finder/System Settings → Expected: Dictator name and icon are consistently displayed.
 - **Confidence Ceiling:** 85%
 
 ### Unit 6: Open-source documentation and final live verification

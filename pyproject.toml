@@ -3,9 +3,9 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "whisper-dictate"
+name = "dictator"
 version = "0.1.0"
-description = "Private, local push-to-talk dictation for Apple Silicon Macs"
+description = "A free speech-to-text app using Whisper"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.12,<3.14"
@@ -33,7 +33,7 @@ macos = [
 dev = ["coverage==7.10.6", "ruff==0.12.8"]
 
 [project.scripts]
-whisper-dictate = "whisper_dictate.main:main"
+dictator = "dictator.main:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
@@ -49,11 +49,11 @@ line-length = 100
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.coverage.run]
-source = ["whisper_dictate"]
+source = ["dictator"]
 omit = [
-  "src/whisper_dictate/main.py",
-  "src/whisper_dictate/hud.py",
-  "src/whisper_dictate/hotkey.py",
+  "src/dictator/main.py",
+  "src/dictator/hud.py",
+  "src/dictator/hotkey.py",
 ]
 
 [tool.coverage.report]

@@ -1,8 +1,8 @@
 import logging
 import unittest
 
-from whisper_dictate.controller import DictationController
-from whisper_dictate.state import SessionState
+from dictator.controller import DictationController
+from dictator.state import SessionState
 
 
 class ImmediateThread:

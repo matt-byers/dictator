@@ -18,7 +18,7 @@ _lock_file = None
 
 def acquire_single_instance() -> bool:
     global _lock_file
-    lock_path = Path.home() / "Library/Caches/com.local.whisper-dictate.lock"
+    lock_path = Path.home() / "Library/Caches/com.local.dictator.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     # Kept open for process lifetime so flock remains held.
     _lock_file = open(lock_path, "w")  # noqa: SIM115

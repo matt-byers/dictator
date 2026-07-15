@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="${0:A:h:h}"
 PYTHON="$ROOT/.venv/bin/python"
-APP="$ROOT/build/Whisper Dictate.app"
+APP="$ROOT/build/Dictator.app"
 CONTENTS="$APP/Contents"
 RESOURCES="$CONTENTS/Resources"
 
@@ -17,14 +17,14 @@ rm -rf "$APP"
 mkdir -p "$CONTENTS/MacOS" "$RESOURCES/python"
 cp "$ROOT/packaging/Info.plist" "$CONTENTS/Info.plist"
 cp "$ROOT/build/AppIcon.icns" "$RESOURCES/AppIcon.icns"
-cp -R "$ROOT/src/whisper_dictate" "$RESOURCES/python/"
+cp -R "$ROOT/src/dictator" "$RESOURCES/python/"
 find "$RESOURCES/python" -type d -name __pycache__ -prune -exec rm -rf {} +
 
 SITE_PACKAGES="$($PYTHON -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')"
 cp -cR "$SITE_PACKAGES" "$RESOURCES/site-packages"
 
 PYTHON_CONFIG="$($PYTHON -c 'import pathlib, sys; print(pathlib.Path(sys.base_prefix) / "bin/python3.13-config")')"
-cc "$ROOT/packaging/launcher.c" -o "$CONTENTS/MacOS/WhisperDictate" \
+cc "$ROOT/packaging/launcher.c" -o "$CONTENTS/MacOS/Dictator" \
   $($PYTHON_CONFIG --cflags) $($PYTHON_CONFIG --embed --ldflags)
 codesign --force --deep --sign - "$APP"
 echo "$APP"

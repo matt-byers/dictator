@@ -4,7 +4,7 @@ import logging
 from collections.abc import Callable
 from threading import Thread
 
-from .errors import AppFailure, ErrorCode, WhisperDictateError
+from .errors import AppFailure, DictatorError, ErrorCode
 from .ports import AudioRecorderPort, TextInserterPort, TranscriberPort, ViewPort
 from .state import SessionCoordinator, SessionState
 
@@ -92,10 +92,10 @@ class DictationController:
     def _fail(self, session_id: int, error: Exception) -> None:
         failure = (
             error.failure
-            if isinstance(error, WhisperDictateError)
+            if isinstance(error, DictatorError)
             else AppFailure(
                 ErrorCode.INTERNAL,
-                "Whisper Dictate encountered an unexpected error.",
+                "Dictator encountered an unexpected error.",
                 "Try again; if it repeats, inspect the application log.",
             )
         )

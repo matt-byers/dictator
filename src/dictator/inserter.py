@@ -5,7 +5,7 @@ import subprocess
 from collections.abc import Callable
 from time import monotonic, sleep
 
-from .errors import AppFailure, ErrorCode, WhisperDictateError
+from .errors import AppFailure, DictatorError, ErrorCode
 
 
 class ClipboardInserter:
@@ -28,7 +28,7 @@ class ClipboardInserter:
             self._keyboard.release("v")
             self._keyboard.release(self._command_key)
         except Exception as error:
-            raise WhisperDictateError(
+            raise DictatorError(
                 AppFailure(
                     ErrorCode.PASTE,
                     "Transcription succeeded but could not be pasted.",

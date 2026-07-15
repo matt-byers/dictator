@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from whisper_dictate.diagnostics import configure_logging, transcript_metadata
+from dictator.diagnostics import configure_logging, transcript_metadata
 
 
 class DiagnosticsTests(unittest.TestCase):

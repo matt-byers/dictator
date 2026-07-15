@@ -1,6 +1,6 @@
 # Architecture
 
-Whisper Dictate is a menu-less LaunchAgent app with one event-driven workflow:
+Dictator is a menu-less LaunchAgent app with one event-driven workflow:
 
 ```text
 global hotkey → session coordinator → on-demand microphone

@@ -3,8 +3,8 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-from whisper_dictate.errors import ErrorCode, WhisperDictateError
-from whisper_dictate.inserter import ClipboardInserter
+from dictator.errors import DictatorError, ErrorCode
+from dictator.inserter import ClipboardInserter
 
 
 class Keyboard:
@@ -19,8 +19,8 @@ class Keyboard:
 
 
 class ClipboardInserterTests(unittest.TestCase):
-    @patch("whisper_dictate.inserter.sleep")
-    @patch("whisper_dictate.inserter.subprocess.run")
+    @patch("dictator.inserter.sleep")
+    @patch("dictator.inserter.subprocess.run")
     def test_copies_then_pastes_after_keys_are_released(self, run, _sleep):
         keyboard = Keyboard()
         inserter = ClipboardInserter(keyboard, "cmd", logging.getLogger("test"))
@@ -33,9 +33,9 @@ class ClipboardInserterTests(unittest.TestCase):
             [("press", "cmd"), ("press", "v"), ("release", "v"), ("release", "cmd")],
         )
 
-    @patch("whisper_dictate.inserter.subprocess.run", side_effect=subprocess.SubprocessError)
+    @patch("dictator.inserter.subprocess.run", side_effect=subprocess.SubprocessError)
     def test_reports_typed_paste_failure(self, _run):
         inserter = ClipboardInserter(Keyboard(), "cmd", logging.getLogger("test"))
-        with self.assertRaises(WhisperDictateError) as context:
+        with self.assertRaises(DictatorError) as context:
             inserter.insert("Howdy.", lambda: True)
         self.assertEqual(context.exception.failure.code, ErrorCode.PASTE)

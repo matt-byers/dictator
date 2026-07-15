@@ -2,7 +2,7 @@
 
 ## Scope
 
-- Installed the new bundle at `~/Applications/Whisper Dictate.app`.
+- Installed the new bundle at `~/Applications/Dictator.app`.
 - Replaced the legacy LaunchAgent and confirmed launchd keeps the new executable running.
 - Caught and fixed a bundle-relative resource path defect exposed by the first launch.
 - Prevented runtime bytecode writes from invalidating the signed bundle seal.

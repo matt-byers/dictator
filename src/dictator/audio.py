@@ -6,7 +6,7 @@ from collections.abc import Callable
 from threading import Lock, Thread
 
 from .config import AppConfig
-from .errors import AppFailure, ErrorCode, WhisperDictateError
+from .errors import AppFailure, DictatorError, ErrorCode
 
 
 class AudioRecorder:
@@ -62,7 +62,7 @@ class AudioRecorder:
                 stream, self._stream = self._stream, None
             if stream is not None:
                 self._close(stream)
-            raise WhisperDictateError(
+            raise DictatorError(
                 AppFailure(
                     ErrorCode.MICROPHONE,
                     "Could not open the microphone.",

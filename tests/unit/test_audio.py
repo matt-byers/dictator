@@ -6,8 +6,8 @@ from unittest.mock import patch
 
 import numpy as np
 
-from whisper_dictate.audio import AudioRecorder
-from whisper_dictate.config import AppConfig
+from dictator.audio import AudioRecorder
+from dictator.config import AppConfig
 
 
 class FakeStream:

@@ -6,9 +6,9 @@ from unittest.mock import patch
 
 import numpy as np
 
-from whisper_dictate.config import AppConfig
-from whisper_dictate.errors import ErrorCode, WhisperDictateError
-from whisper_dictate.transcriber import LocalWhisperTranscriber
+from dictator.config import AppConfig
+from dictator.errors import DictatorError, ErrorCode
+from dictator.transcriber import LocalWhisperTranscriber
 
 
 class FakeMLX(types.ModuleType):
@@ -83,7 +83,7 @@ class TranscriberTests(unittest.TestCase):
 
         _core, modules = self.modules(fail)
         subject = LocalWhisperTranscriber(AppConfig(sample_rate=10), logging.getLogger("test"))
-        with patch.dict(sys.modules, modules), self.assertRaises(WhisperDictateError) as context:
+        with patch.dict(sys.modules, modules), self.assertRaises(DictatorError) as context:
             subject.transcribe(np.ones(10, dtype=np.float32))
         self.assertEqual(context.exception.failure.code, ErrorCode.MODEL)
 

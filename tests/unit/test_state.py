@@ -1,7 +1,7 @@
 import unittest
 
-from whisper_dictate.errors import AppFailure, ErrorCode
-from whisper_dictate.state import InvalidTransition, SessionCoordinator, SessionState
+from dictator.errors import AppFailure, ErrorCode
+from dictator.state import InvalidTransition, SessionCoordinator, SessionState
 
 
 class FakeClock:
