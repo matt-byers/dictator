@@ -38,6 +38,9 @@ Grant **Whisper Dictate** these one-time permissions in System Settings → Priv
 2. Input Monitoring — receiving the global hotkey.
 3. Accessibility — sending Command+V.
 
+For Input Monitoring and Accessibility, use the `+` button and select
+`~/Applications/Whisper Dictate.app`. Microphone permission is requested on the first recording.
+
 Restart after changing permissions:
 
 ```sh

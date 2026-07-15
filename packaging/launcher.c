@@ -1,5 +1,4 @@
 #include <Python.h>
-#include <libgen.h>
 #include <mach-o/dyld.h>
 #include <limits.h>
 #include <stdio.h>
@@ -22,13 +21,18 @@ int main(void) {
 
     char resources[PATH_MAX];
     snprintf(resources, sizeof(resources), "%s", resolved);
-    dirname(resources); /* MacOS */
-    dirname(resources); /* Contents */
-    strncat(resources, "/Resources", sizeof(resources) - strlen(resources) - 1);
+    char *marker = strstr(resources, "/Contents/MacOS/");
+    if (marker == NULL) {
+        fprintf(stderr, "Whisper Dictate: launcher is not inside an application bundle\n");
+        return 1;
+    }
+    *marker = '\0';
+    strncat(resources, "/Contents/Resources", sizeof(resources) - strlen(resources) - 1);
 
     char python_path[PATH_MAX * 2];
     snprintf(python_path, sizeof(python_path), "%s/python:%s/site-packages", resources, resources);
     setenv("PYTHONPATH", python_path, 1);
+    setenv("PYTHONDONTWRITEBYTECODE", "1", 1);
 
     Py_Initialize();
     int result = PyRun_SimpleString(
