@@ -32,15 +32,19 @@ def acquire_single_instance() -> bool:
 
 
 def main() -> int:
+    config = AppConfig.from_environment()
+    logger = configure_logging(config.log_path, verbose=config.debug_keys)
+
+    # Logging is configured first so a lost race leaves a trace; exiting here
+    # silently made restarts look successful when they had done nothing.
     if not acquire_single_instance():
+        logger.warning("startup_aborted reason=another_instance_holds_lock")
         return 0
 
     import tkinter as tk
 
     from pynput import keyboard
 
-    config = AppConfig.from_environment()
-    logger = configure_logging(config.log_path, verbose=config.debug_keys)
     logger.info("app_started model=%s language=%s", config.model, config.language or "auto")
 
     root = tk.Tk()

@@ -34,6 +34,18 @@ class GlobalHotkey:
 
             def _create_event_tap(inner_self):
                 inner_self.tap = super()._create_event_tap()
+                if inner_self.tap is None:
+                    # pynput exits its listener thread silently when the tap is
+                    # None, leaving the hotkey dead with nothing in the log. An
+                    # active tap (we pass darwin_intercept) needs both
+                    # Accessibility and Input Monitoring; AXIsProcessTrusted can
+                    # report True while this still fails.
+                    owner._logger.critical(
+                        "keyboard_event_tap_unavailable "
+                        "action=grant_accessibility_and_input_monitoring"
+                    )
+                else:
+                    owner._logger.info("keyboard_event_tap_created")
                 return inner_self.tap
 
             def ensure_active(inner_self) -> None:
@@ -86,6 +98,7 @@ class GlobalHotkey:
         with self._lock:
             self._pressed.add(token)
             triggered = {"ctrl", "alt", "space"}.issubset(self._pressed)
+        self._logger.debug("key_pressed token=%s triggered=%s", token, triggered)
         if triggered and self._on_trigger():
             self._capturing_space = True
 
