@@ -49,7 +49,7 @@ class TranscriberTests(unittest.TestCase):
         whisper.transcribe = transcribe
         return core, {"mlx": mlx, "mlx.core": core, "mlx_whisper": whisper}
 
-    def test_quantized_model_uses_one_deterministic_decode_and_clears_cache(self):
+    def test_quantized_model_keeps_temperature_fallback_and_clears_cache(self):
         calls = []
 
         def transcribe(audio, **kwargs):
@@ -64,7 +64,9 @@ class TranscriberTests(unittest.TestCase):
 
         self.assertEqual(result, "Howdy.")
         self.assertEqual(len(calls), 1)
-        self.assertEqual(calls[0][1]["temperature"], 0.0)
+        # Leaving temperature unset keeps mlx_whisper's fallback ladder, which is
+        # what breaks repetition loops. Pinning a scalar here would disable it.
+        self.assertNotIn("temperature", calls[0][1])
         self.assertEqual(calls[0][1]["path_or_hf_repo"], config.model)
         self.assertEqual(core.cache_limit, 64 * 1024 * 1024)
         self.assertTrue(core.cleared)

@@ -58,11 +58,14 @@ class LocalWhisperTranscriber:
             started = monotonic()
             try:
                 mx.reset_peak_memory()
+                # No temperature override: the default ladder (0.0 → 1.0) is what
+                # detects a degenerate repetition loop via compression_ratio_threshold
+                # and retries it. A scalar temperature disables the retry entirely and
+                # lets the looped text seed the next window's prompt.
                 result = mlx_whisper.transcribe(
                     audio,
                     path_or_hf_repo=self._config.model,
                     language=self._config.language,
-                    temperature=0.0,
                 )
             except Exception as error:
                 raise DictatorError(
